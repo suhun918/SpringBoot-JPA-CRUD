@@ -10,6 +10,7 @@
 </head>
 <body>
 	<form:form action="/board/update" method="put">
+		<input type="hidden" value="${board.id}" name="id"/>
 		<table>
 
 			<tr>
