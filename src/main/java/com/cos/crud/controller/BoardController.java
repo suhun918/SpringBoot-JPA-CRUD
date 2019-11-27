@@ -48,41 +48,31 @@ public class BoardController {
 
 	@GetMapping("/board/writeForm")
 	public String boardWriteForm(HttpSession session) {
-		// 로그인 됐는지 체크 (나중에는 인터셉터처리 AOP 쓸 것)
-		User user = (User) session.getAttribute("user");
-		if (user != null) {
-			return "/board/writeForm";
-		} else {
-			return "/user/loginForm";
-		}
+
+		return "/board/writeForm";
 
 	}
 
 	@PostMapping("/board/write")
-	public @ResponseBody String boardWrite(Board board, HttpSession session) {
+	public String boardWrite(Board board, HttpSession session) {
 		User user = (User) session.getAttribute("user");
-		//포스트맨 같은 걸로 공격들어올 수 있으므로 여기도 세션 걸어줘야한다.
-		if (user != null) {
-			//board에 유저정보 넣고 세이브해줘야한다.
-			board.setUser(user);
-			mRepo.save(board);
-			return Script.href("/board/list");
-		} else {
-			return Script.href("/user/loginForm");
-		}
+		// board에 유저정보 넣고 세이브해줘야한다.
+		board.setUser(user);
+		mRepo.save(board);
+		return "redirect:/board/list";
 
 	}
 
 	@DeleteMapping("/board/delete/{id}")
 	public String boardDelete(@PathVariable int id) {
-		//세션 있어야하는데 생략함
+
 		mRepo.deleteById(id);
 		return "redirect:/board/list";
 	}
 
 	@GetMapping("/board/updateForm/{id}")
 	public String boardUpdateForm(@PathVariable int id, Model model) {
-		//세션 있어야하는데 생략함
+
 		Optional<Board> board = mRepo.findById(id);
 		model.addAttribute("board", board.get());
 		return "board/updateForm";
@@ -90,7 +80,7 @@ public class BoardController {
 
 	@PutMapping("/board/update")
 	public String boardUpdate(Board board) {
-		//세션 있어야하는데 생략함
+
 		mRepo.save(board);
 		return "redirect:/board/list";
 	}
