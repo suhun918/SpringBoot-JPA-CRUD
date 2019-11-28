@@ -1,29 +1,35 @@
 package com.cos.crud.controller;
 
-import java.io.PrintWriter;
+import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cos.crud.model.User;
-import com.cos.crud.repository.UserRepository;
+import com.cos.crud.service.UserService;
 import com.cos.crud.utils.Script;
 
 @Controller
 public class UserController {
 
 	@Autowired
-	private UserRepository mRepo;
+	private UserService mService;
+	
+	@GetMapping("/user/{id}")
+	public @ResponseBody List<User> getUser(@PathVariable int id){
+		return mService.getUser(id);
+	}
+	
 
 	@PostMapping("/user/login")
 	public @ResponseBody String userLogin(User user, HttpSession session) {
-		User u = mRepo.findByEmailAndPassword(user.getEmail(), user.getPassword());
+		User u = mService.userLogin(user);
 		if (u != null) {
 			session.setAttribute("user", u);
 			return Script.href("/");
@@ -39,10 +45,13 @@ public class UserController {
 
 	@PostMapping("/user/join")
 	public String userJoin(User user) {
-		// save를 호출했는데 기존에 있던 id(int)가 동일하면 update로 작동한다.
-		// ex) user.setId(1);
-		mRepo.save(user);
-		return "redirect:/";
+		int result = mService.userJoin(user);
+		if(result == 1) {
+			return "redirect:/board/list";
+		}else {
+			return "redirect:/user/joinForm";
+		}
+		
 	}
 
 	@GetMapping("/user/joinForm")

@@ -37,10 +37,6 @@ public class User {
 	private String phone;
 	private String email;
 
-	// 한명의 유저는 여러개의 게시글(board)에 연결되어있다. OneToMany
-	// mappedby를 걸면 db테이블에는 생성되지 않으면서 Board 데이터는 들고 온다.
-	@OneToMany(mappedBy = "user") // 연관관계의 주인(FK를 가진 쪽) 변수명
-	private List<Board> boards;
 
 	@CreationTimestamp
 	private Timestamp createDate;
