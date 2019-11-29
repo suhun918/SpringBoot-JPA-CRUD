@@ -32,3 +32,12 @@ spring:
       charset: UTF-8
       enabled: true
       force: true           
+#파일업로드 용량 제한
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 1MB
+#경로를 미리 지정 해둔다.
+file:
+  path: C:/src/Springwork/jpa-crud/src/main/resources/upload/      
+        

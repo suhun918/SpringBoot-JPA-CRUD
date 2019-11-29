@@ -95,9 +95,9 @@ public class BoardController {
 	}
 
 	@PutMapping("/board/update")
-	public @ResponseBody String boardUpdate(Board board) {
+	public @ResponseBody String boardUpdate(Board board, HttpSession session) {
 		
-		int result = mService.boardUpdate(board);
+		int result = mService.boardUpdate(board, session);
 		if(result == 1) {
 			return Script.href("/board/list");
 		}else {

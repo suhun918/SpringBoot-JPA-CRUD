@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.cos.crud.model.Board;
 import com.cos.crud.model.User;
 import com.cos.crud.repository.BoardRepository;
+import com.cos.crud.utils.CommonUtil;
 
 @Service
 public class BoardService {
@@ -80,9 +81,12 @@ public class BoardService {
 		return board.get();
 	}
 
-	public int boardUpdate(Board board) {
+	public int boardUpdate(Board board, HttpSession session) {
 
 		try {
+			User user = (User) session.getAttribute("user");
+			board.setUser(user);
+			board.setCreateDate(CommonUtil.getCurrentDate());
 			mRepo.save(board);
 			return 1;
 		} catch (Exception e) {

@@ -1,6 +1,9 @@
 package com.cos.crud.repository;
 
+
+
 import org.springframework.data.jpa.repository.JpaRepository;
+
 
 import com.cos.crud.model.User;
 
@@ -11,4 +14,5 @@ public interface UserRepository extends JpaRepository<User, Integer>{
 	
 	//변수가 아니라 네이밍 규칙이다!
 	User findByEmailAndPassword(String email, String password);
+	
 }

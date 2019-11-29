@@ -24,6 +24,6 @@ public interface BoardRepository extends JpaRepository<Board, Integer>{
 	//트렌젝션 테스트 2
 	@Transactional
 	@Modifying
-	@Query(value = "UPDATE board SET createDate=no2w() WHERE id=?1", nativeQuery = true)
+	@Query(value = "UPDATE board SET createDate=now() WHERE id=?1", nativeQuery = true)
 	public void timeUpdate(int id);
 }
